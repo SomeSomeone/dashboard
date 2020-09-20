@@ -16,6 +16,7 @@
       :margin="[10, 10]"
       :use-css-transforms="true"
       class="dashboard"
+      @layout-updated="saveElements"
     >
       <grid-item
         v-for="item in layout"
@@ -48,13 +49,7 @@ export default {
     Widget: Widget
   },
   data: () => ({
-    layout: [
-      { x: 0, y: 0, w: 4, h: 5, i: 0, options: { name: "Title 1" } },
-      { x: 4, y: 0, w: 4, h: 5, i: 1, options: { name: "Title 2" } },
-      { x: 8, y: 0, w: 4, h: 5, i: 2, options: { name: "Title 3" } },
-      { x: 0, y: 1, w: 4, h: 5, i: 3, options: { name: "Title 4" } },
-      { x: 4, y: 1, w: 4, h: 5, i: 4, options: { name: "Title 5" } }
-    ]
+    layout: []
   }),
   methods: {
     addElement() {
@@ -75,11 +70,27 @@ export default {
       }
     },
     removeElement(id) {
-      console.log(id);
       let index = this.layout.findIndex(item => item.i === id);
       if (index > -1) {
         this.layout.splice(index, 1);
       }
+    },
+    saveElements() {
+      localStorage.setItem("dashboard", JSON.stringify(this.layout));
+    }
+  },
+  mounted() {
+    let save = localStorage.getItem("dashboard");
+    if (save) {
+      this.layout = JSON.parse(save);
+    } else {
+      this.layout = [
+        { x: 0, y: 0, w: 4, h: 5, i: 0, options: { name: "Title 1" } },
+        { x: 4, y: 0, w: 4, h: 5, i: 1, options: { name: "Title 2" } },
+        { x: 8, y: 0, w: 4, h: 5, i: 2, options: { name: "Title 3" } },
+        { x: 0, y: 1, w: 4, h: 5, i: 3, options: { name: "Title 4" } },
+        { x: 4, y: 1, w: 4, h: 5, i: 4, options: { name: "Title 5" } }
+      ];
     }
   }
 };

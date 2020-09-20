@@ -48,12 +48,13 @@ export default {
   align-items: center;
   justify-content: center;
   top: 0;
+  cursor: pointer;
   &.button-move {
     left: 0;
   }
   &.button-delete {
     right: 0;
-    background: #a26262;
+    background: #ff0067;
   }
   &:focus {
     outline: 0;
